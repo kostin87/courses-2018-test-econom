@@ -119,7 +119,11 @@ plot(r,type = "l")
 
 `@sct`
 ```{r}
-test_function_result("plot")
+ex() %>% check_function("plot") %>% {
+  check_arg(., "x") %>% check_equal()
+  check_arg(., "type") %>% check_equal()
+}
+success_msg("Отлично!")
 ```
 
 ---
@@ -162,14 +166,15 @@ spy3=
 ```{r}
 spy1=spy[1:100]
 spy2=spy[101:200]
-spy3=spy[201:(length(spy))]
+spy3=spy[201:(NROW(spy))]
 ```
 
 `@sct`
 ```{r}
-test_object("spy1")
-test_object("spy2")
-test_object("spy3")
+ex() %>% check_object("spy1") %>% check_equal()
+ex() %>% check_object("spy2") %>% check_equal()
+ex() %>% check_object("spy3") %>% check_equal()
+success_msg("Отлично!")
 ```
 
 ---
@@ -187,7 +192,7 @@ skills: 5
 
 
 `@instructions`
-- Для вектора доходностей r рассчитайте среднеквадратическое отклонение и запишите в переменную s соответственно.
+- Для вектора r рассчитайте среднеквадратическое отклонение и запишите в переменную s соответственно.
 
 `@hint`
 
@@ -212,7 +217,8 @@ s=sd(r)
 
 `@sct`
 ```{r}
-test_object("s")
+ex() %>% check_object("s") %>% check_equal()
+success_msg("Отлично!")
 ```
 
 ---
@@ -230,7 +236,7 @@ skills: 1
 
 
 `@instructions`
-- Для вектора доходностей r рассчитайте среднее и запишите в переменную m соответственно.
+- Для вектора r рассчитайте среднее и запишите в переменную m соответственно.
 
 `@hint`
 
@@ -257,7 +263,8 @@ m=mean(r)
 
 `@sct`
 ```{r}
-test_object("m")
+ex() %>% check_object("m") %>% check_equal()
+success_msg("Отлично!")
 ```
 
 ---
@@ -275,7 +282,7 @@ skills: 1
 
 
 `@instructions`
-- Для вектора доходностей r рассчитайте дисперсию и запишите в переменные v соответственно.
+- Для вектора r рассчитайте дисперсию и запишите в переменные v соответственно.
 
 `@hint`
 
@@ -300,7 +307,8 @@ v=var(r)
 
 `@sct`
 ```{r}
-test_object("v")
+ex() %>% check_object("v") %>% check_equal()
+success_msg("Отлично!")
 ```
 
 ---
@@ -318,7 +326,7 @@ skills: 5
 
 
 `@instructions`
-- У вас есть вектор доходностей r. Создайте вектор rNew, который состоял бы только из неотрицательных значений вектора r.
+- У вас есть вектор r. Создайте вектор rNew, который состоял бы только из неотрицательных значений вектора r.
 
 `@hint`
 
@@ -344,7 +352,8 @@ rNew=r[r>=0]
 
 `@sct`
 ```{r}
-test_object("rNew")
+ex() %>% check_object("rNew") %>% check_equal()
+success_msg("Отлично!")
 ```
 
 ---
@@ -387,7 +396,8 @@ c3=cbind(c1,c2)
 
 `@sct`
 ```{r}
-test_object("c3")
+ex() %>% check_object("c3") %>% check_equal()
+success_msg("Отлично!")
 ```
 
 ---
@@ -431,7 +441,8 @@ fit=lm(spy~t)
 
 `@sct`
 ```{r}
-test_object("fit")
+ex() %>% check_object("fit") %>% check_equal()
+success_msg("Отлично!")
 ```
 
 ---
@@ -465,7 +476,9 @@ fit=lm(x~t+t2)
 
 `@sct`
 ```{r}
-test_mc(correct = 1)
+msg2 <- "Nice one!"
+msg3 <- "Not quite, give it another shot."
+ex() %>% check_mc(1, feedback_msgs = c(msg2, msg3))
 ```
 
 ---
@@ -499,7 +512,9 @@ fit=lm(x~t+t2)
 
 `@sct`
 ```{r}
-test_mc(correct = 2)
+msg2 <- "Nice one!"
+msg3 <- "Not quite, give it another shot."
+ex() %>% check_mc(2, feedback_msgs = c(msg2, msg3))
 ```
 
 ---
@@ -533,7 +548,9 @@ fit=lm(x~t+t2)
 
 `@sct`
 ```{r}
-test_mc(correct = 2)
+msg2 <- "Nice one!"
+msg3 <- "Not quite, give it another shot."
+ex() %>% check_mc(2, feedback_msgs = c(msg2, msg3))
 ```
 
 ---
@@ -576,137 +593,6 @@ fit=arima(spy,c(1,1,1))
 
 `@sct`
 ```{r}
-test_object("fit")
-```
-
----
-
-## VaR1
-
-```yaml
-type: NormalExercise
-key: 558478a59e
-lang: r
-xp: 100
-skills: 5
-```
-
-
-
-`@instructions`
-- У вас есть timeSeries вектор доходностей r. Рассчитайте модифицированный VaR по этому вектору и запишите в переменную VaR.
-
-`@hint`
-
-
-`@pre_exercise_code`
-```{r}
-library('timeSeries')
-library("PerformanceAnalytics")
-n=round(runif(1, min = 1, max = 30))
-load(url("http://s3.amazonaws.com/assets.datacamp.com/production/course_2233/datasets/SPY.RData"))
-spy=SPY[[1]][((n-1)*390+1):(n*390),2]
-r<-diff(log(spy))
-r=timeSeries(r,charvec=(1:NROW(r))*24*60*60)
-```
-
-`@sample_code`
-```{r}
-VaR=
-```
-
-`@solution`
-```{r}
-VaR=VaR(r)
-```
-
-`@sct`
-```{r}
-test_object("VaR")
-```
-
----
-
-## Sharp Ratio
-
-```yaml
-type: NormalExercise
-key: 285bccf614
-lang: r
-xp: 100
-skills: 1
-```
-
-
-
-`@instructions`
-- У вас есть timeSeries вектор доходностей r. Рассчитайте Sharp Ratio по этому вектору и запишите в переменную sharp_ratio.
-
-`@hint`
-
-
-`@pre_exercise_code`
-```{r}
-library('timeSeries')
-library("PerformanceAnalytics")
-n=round(runif(1, min = 1, max = 30))
-load(url("http://s3.amazonaws.com/assets.datacamp.com/production/course_2233/datasets/SPY.RData"))
-spy=SPY[[1]][((n-1)*390+1):(n*390),2]
-r<-diff(log(spy))
-r=timeSeries(r,charvec=(1:NROW(r))*24*60*60)
-```
-
-`@sample_code`
-```{r}
-sharp_ratio=
-```
-
-`@solution`
-```{r}
-sharp_ratio=SharpeRatio(r)
-```
-
-`@sct`
-```{r}
-test_object("sharp_ratio")
-```
-
----
-
-## Загрузка данных с yahoo
-
-```yaml
-type: NormalExercise
-key: 09f5eaf7a1
-lang: r
-xp: 100
-skills: 1
-```
-
-
-
-`@instructions`
--Загрузите данные SPY
-
-`@hint`
-
-
-`@pre_exercise_code`
-```{r}
-require("quantmod")
-```
-
-`@sample_code`
-```{r}
-
-```
-
-`@solution`
-```{r}
-getSymbols('SPY')
-```
-
-`@sct`
-```{r}
-test_object("SPY")
+ex() %>% check_object("fit") %>% check_equal()
+success_msg("Отлично!")
 ```
