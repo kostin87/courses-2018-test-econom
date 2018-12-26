@@ -599,4 +599,3 @@ msg2 <- "Nice one!"
 msg3 <- "Not quite, give it another shot."
 ex() %>% check_mc(1, feedback_msgs = c(msg2, msg3))
 ```
-
