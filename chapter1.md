@@ -50,6 +50,38 @@ success_msg("Отлично!")
 
 ---
 
+## Определение распределения
+
+```yaml
+type: MultipleChoiceExercise
+key: c360e6347f
+xp: 50
+```
+
+У нас есть случайная величина x. Как вы думаете к какому распределению она относится?
+
+`@possible_answers`
+- 'Нормальное'
+- 'Хи-квадрат'
+- 'Стьюдента'
+
+`@hint`
+Нарисуйте гистограмму
+
+`@pre_exercise_code`
+```{r}
+x=rchisq(10000, 40)
+```
+
+`@sct`
+```{r}
+msg2 <- "Nice one!"
+msg3 <- "Not quite, give it another shot."
+ex() %>% check_mc(2, feedback_msgs = c(msg2, msg3))
+```
+
+---
+
 ## Отрисовка обычного графика
 
 ```yaml
