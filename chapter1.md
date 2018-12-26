@@ -4,103 +4,6 @@ description: 'Тестирование по эконометрии'
 attachments: null
 ---
 
-## Вычисление обычной доходности
-
-```yaml
-type: NormalExercise
-key: 98360b49d2
-lang: r
-xp: 100
-skills: 5
-```
-
-
-
-`@instructions`
-- У вас есть цены актива spy и msft.
-- Вычислите обычную доходность для этого актива и запишите ее в переменную Rspy и Rmsft.
-- Вычислите доходность портфеля с весами 0.5 и 0.5 и запишите ее в переменную Rportf.
-
-`@hint`
-Доходность это темп прироста цены
-
-`@pre_exercise_code`
-```{r}
-load(url('https://assets.datacamp.com/production/repositories/4264/datasets/2a1cb49c1085af50c535acf5f11f7211c08209bf/MSFT.RData'))
-load(url('https://assets.datacamp.com/production/repositories/4264/datasets/1aaea273f16388fed19feec2e06d2ba5984044d2/SPY.RData'))
-spy=SPY$SPY.Close
-msft=MSFT$MSFT.Close
-```
-
-`@sample_code`
-```{r}
-Rspy =
-Rmsft=
-Rportf=
-```
-
-`@solution`
-```{r}
-Rspy =diff(spy)/spy[-NROW(spy)]
-Rmsft=diff(msft)/spy[-NROW(msft)]
-Rportf=0.5*Rspy+0.5*Rmsft
-```
-
-`@sct`
-```{r}
-ex() %>% check_object("Rspy") %>% check_equal()
-ex() %>% check_object("Rmsft") %>% check_equal()
-ex() %>% check_object("Rportf") %>% check_equal()
-success_msg("Well done!")
-```
-
----
-
-## Вычисление логарифмической доходности
-
-```yaml
-type: NormalExercise
-key: 61f0a215c8
-lang: r
-xp: 100
-skills: 5
-```
-
-
-
-`@instructions`
-- У вас есть цены актива spy.
-- Вычислите логарифмическую доходность для этого актива и запишите ее в переменную r.
-
-`@hint`
-Доходность это темп прироста цены
-
-`@pre_exercise_code`
-```{r}
-n=round(runif(1, min = 1, max = 30))
-load(url("http://s3.amazonaws.com/assets.datacamp.com/production/course_2233/datasets/SPY.RData"))
-spy=SPY[[1]][((n-1)*390+1):(n*390),2]
-```
-
-`@sample_code`
-```{r}
-r<-
-
-```
-
-`@solution`
-```{r}
-r<-diff(log(spy))
-```
-
-`@sct`
-```{r}
-ex() %>% check_object("r") %>% check_equal()
-success_msg("Well done!")
-```
-
----
-
 ## Отрисовка гистограмм
 
 ```yaml
@@ -114,7 +17,7 @@ skills: 5
 
 
 `@instructions`
-- У вас есть логарифмическая доходность r.
+- У вас есть переменная r.
 - Постройте её гистограмму с разбиением на 50 столбцов.
 
 `@hint`
@@ -122,10 +25,7 @@ skills: 5
 
 `@pre_exercise_code`
 ```{r}
-n=round(runif(1, min = 1, max = 30))
-load(url("http://s3.amazonaws.com/assets.datacamp.com/production/course_2233/datasets/SPY.RData"))
-spy=SPY[[1]][((n-1)*390+1):(n*390),2]
-r<-diff(log(spy))
+r=rnorm(10000,10,10)
 ```
 
 `@sample_code`
@@ -141,45 +41,11 @@ hist(r,breaks = 50)
 
 `@sct`
 ```{r}
-test_function_result("hist")
-```
-
----
-
-## Insert exercise title here
-
-```yaml
-type: NormalExercise
-key: 0e0cefe504
-xp: 100
-```
-
-
-
-`@instructions`
-
-
-`@hint`
-
-
-`@pre_exercise_code`
-```{r}
-
-```
-
-`@sample_code`
-```{r}
-
-```
-
-`@solution`
-```{r}
-
-```
-
-`@sct`
-```{r}
-
+ex() %>% check_function("hist") %>% {
+  check_arg(., "x") %>% check_equal()
+  check_arg(., "breaks") %>% check_equal()
+}
+success_msg("Отлично!")
 ```
 
 ---
@@ -197,7 +63,7 @@ skills: 5
 
 
 `@instructions`
-- У вас есть логарифмическая доходность r.
+- У вас есть переменная r.
 - нарисуйте её график, используя линию.
 
 `@hint`
@@ -205,10 +71,7 @@ skills: 5
 
 `@pre_exercise_code`
 ```{r}
-n=round(runif(1, min = 1, max = 30))
-load(url("http://s3.amazonaws.com/assets.datacamp.com/production/course_2233/datasets/SPY.RData"))
-spy=SPY[[1]][((n-1)*390+1):(n*390),2]
-r<-diff(log(spy))
+r=rnorm(10000,10,10)+(1:10000)*0.2
 ```
 
 `@sample_code`
