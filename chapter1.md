@@ -415,16 +415,16 @@ skills: 5
 
 
 `@instructions`
-- Постройте линейну регрессию spy от линейного тренда и запишите ее в переменную fit.
+- Постройте линейную регрессию x от y и z и запишите ее в переменную fit.
 
 `@hint`
 
 
 `@pre_exercise_code`
 ```{r}
-n=round(runif(1, min = 1, max = 30))
-load(url("http://s3.amazonaws.com/assets.datacamp.com/production/course_2233/datasets/SPY.RData"))
-spy=SPY[[1]][((n-1)*390+1):(n*390),2]
+x=rnorm(10000)
+y=x+rnorm(10000,1,1.5)
+z=x>2
 ```
 
 `@sample_code`
@@ -435,8 +435,7 @@ fit=
 
 `@solution`
 ```{r}
-t=1:length(spy)
-fit=lm(spy~t)
+fit=lm(x~y+z)
 ```
 
 `@sct`
@@ -468,17 +467,22 @@ skills: 1
 
 `@pre_exercise_code`
 ```{r}
-x=c(3,6,5,7,8,5,4,8,9,6,4,3,6,7,9,7,6,10,11,10)
-t=1:length(x)
-t2=t^2
-fit=lm(x~t+t2)
+x=rnorm(10000)
+y=x+rnorm(10000,1,100)
+z=x+rnorm(10000,0,5)>3
+fit=lm(x~y+z)
+
 ```
 
 `@sct`
 ```{r}
 msg2 <- "Nice one!"
 msg3 <- "Not quite, give it another shot."
-ex() %>% check_mc(1, feedback_msgs = c(msg2, msg3))
+a=summary(fit)
+if(a$fstatistic[1]>qf(0.95,a$fstatistic[2],a$fstatistic[3])){
+  r=1
+}else{r=2}
+ex() %>% check_mc(r, feedback_msgs = c(msg2, msg3))
 ```
 
 ---
@@ -493,7 +497,7 @@ xp: 50
 skills: 1
 ```
 
-У вас есть результаты линейной регрессии fit. Является ли переменная t значимой?
+У вас есть результаты линейной регрессии fit. Является ли переменная y значимой?
 
 `@possible_answers`
 - Да
@@ -504,17 +508,21 @@ skills: 1
 
 `@pre_exercise_code`
 ```{r}
-x=c(3,6,5,7,8,5,4,8,9,6,4,3,6,7,9,7,6,10,11,10)
-t=1:length(x)
-t2=t^2
-fit=lm(x~t+t2)
+x=rnorm(10000)
+y=x+rnorm(10000,1,100)
+z=x+rnorm(10000,0,5)>3
+fit=lm(x~y+z)
 ```
 
 `@sct`
 ```{r}
 msg2 <- "Nice one!"
 msg3 <- "Not quite, give it another shot."
-ex() %>% check_mc(2, feedback_msgs = c(msg2, msg3))
+a=summary(fit)
+if(a$coefficients[2,4]>0.05){
+  r=2
+}else{r=1}
+ex() %>% check_mc(r, feedback_msgs = c(msg2, msg3))
 ```
 
 ---
@@ -529,7 +537,7 @@ xp: 50
 skills: 1
 ```
 
-У вас есть результаты линейной регрессии fit. Является ли переменная t2 значимой?
+У вас есть результаты линейной регрессии fit. Является ли переменная zTRUE значимой?
 
 `@possible_answers`
 - Да
@@ -540,59 +548,55 @@ skills: 1
 
 `@pre_exercise_code`
 ```{r}
-x=c(3,6,5,7,8,5,4,8,9,6,4,3,6,7,9,7,6,10,11,10)
-t=1:length(x)
-t2=t^2
-fit=lm(x~t+t2)
+x=rnorm(10000)
+y=x+rnorm(10000,1,100)
+z=x+rnorm(10000,0,5)>3
+fit=lm(x~y+z)
 ```
 
 `@sct`
 ```{r}
 msg2 <- "Nice one!"
 msg3 <- "Not quite, give it another shot."
-ex() %>% check_mc(2, feedback_msgs = c(msg2, msg3))
+a=summary(fit)
+if(a$coefficients[3,4]>0.05){
+  r=2
+}else{r=1}
+ex() %>% check_mc(r, feedback_msgs = c(msg2, msg3))
 ```
 
 ---
 
-## ARIMA2
+## Результаты регрессии4
 
 ```yaml
-type: NormalExercise
-key: 54aa250dfd
-lang: r
-xp: 100
-skills: 5
+type: MultipleChoiceExercise
+key: f067ffdee0
+xp: 50
 ```
 
+У вас есть результаты линейной регрессии fit. Что обозначает переменная zTRUE?
 
-
-`@instructions`
-- У вас есть вектор spy, постройте по нему Arima(1,1,1) регрессию и запишите её в переменную fit.
+`@possible_answers`
+- На сколько в среднем x в случае z TRUE больше, чем x в случае z FALSE
+- В среднем x больше у на величину коэффициента zTRUE
+- x является положительной величиной, потому что zTRUE>0
 
 `@hint`
-Функция arima.
+
 
 `@pre_exercise_code`
 ```{r}
-require('forecast')
-n=round(runif(1, min = 1, max = 30))
-load(url("http://s3.amazonaws.com/assets.datacamp.com/production/course_2233/datasets/SPY.RData"))
-spy=SPY[[1]][((n-1)*390+1):(n*390),2]
-```
-
-`@sample_code`
-```{r}
-fit=
-```
-
-`@solution`
-```{r}
-fit=arima(spy,c(1,1,1))
+x=rnorm(10000)
+y=x+rnorm(10000,1,100)
+z=x+rnorm(10000,0,5)>3
+fit=lm(x~y+z)
 ```
 
 `@sct`
 ```{r}
-ex() %>% check_object("fit") %>% check_equal()
-success_msg("Отлично!")
+msg2 <- "Nice one!"
+msg3 <- "Not quite, give it another shot."
+ex() %>% check_mc(1, feedback_msgs = c(msg2, msg3))
 ```
+
